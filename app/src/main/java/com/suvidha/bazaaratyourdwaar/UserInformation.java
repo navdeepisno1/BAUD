@@ -3,12 +3,23 @@ package com.suvidha.bazaaratyourdwaar;
 import java.util.List;
 
 public class UserInformation {
-    private String userName,userEmail,userPhoneNumber,userJoinDate,userScore;
+    private String userName,userEmail,userPhoneNumber,userJoinDate,userScore,userPassword;
     private List<UserAddress> userDeliveryAddresses;
     private List<OrderedProduct> orderedProducts;
     private List<ProductInformation> favouriteProducts;
     private List<CreditCards> creditCards;
     private List<DebitCards> debitCards;
+
+
+
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
     public UserInformation()
     {

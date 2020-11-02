@@ -1,20 +1,37 @@
 package com.suvidha.bazaaratyourdwaar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity implements View.OnClickListener{
 
     TextView textView_signup;
     Context context = this;
     ImageView imageView_back;
+    Button button_login;
+    TextInputEditText textInputEditText_username,textInputEditText_password;
+    TextInputLayout textInputLayout_username,textInputLayout_password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +40,77 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
 
         textView_signup = findViewById(R.id.login_tv_signup);
         imageView_back = findViewById(R.id.login_iv_back);
+        button_login = findViewById(R.id.login_btn_login);
+        textInputEditText_username = findViewById(R.id.login_et_username);
+        textInputEditText_password = findViewById(R.id.login_et_password);
+        textInputLayout_username = findViewById(R.id.login_etl_username);
+        textInputLayout_password = findViewById(R.id.login_etl_password);
+
+        button_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String username,password;
+                username = textInputEditText_username.getText().toString().trim();
+                password = textInputEditText_password.getText().toString().trim();
+
+                if(username.isEmpty())
+                {
+                    textInputLayout_username.setError("Username Required");
+                    return;
+                }
+                if(password.isEmpty())
+                {
+                    textInputLayout_password.setError("Password Required");
+                    return;
+                }
+
+                textInputLayout_username.setError(null);
+                textInputLayout_password.setError(null);
+                DatabaseReference databaseReference_users = FirebaseDatabase.getInstance().getReference("Users");
+                databaseReference_users.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        boolean isUserFound = false;
+                        for(DataSnapshot dataSnapshot: snapshot.getChildren())
+                        {
+                            String dbUsername = dataSnapshot.child("username").getValue(String.class);
+                            String dbPassword = dataSnapshot.child("password").getValue(String.class);
+                            Log.e("username",dbUsername);
+                            Log.e("password",dbPassword);
+
+                            if(dbUsername.equals(username) && dbPassword.equals(password))
+                            {
+                                Log.e("user","Found");
+                                isUserFound = true;
+                                break;
+                            }
+                            else
+                            {
+                                Log.e("user","Not Found");
+                            }
+                        }
+                        if(isUserFound)
+                        {
+                            LinearLayout linearLayout = findViewById(R.id.login_ll);
+                            Snackbar snackbar = Snackbar.make(linearLayout,"Logged In SuccessFully",Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                        else
+                        {
+                            LinearLayout linearLayout = findViewById(R.id.login_ll);
+                            Snackbar snackbar = Snackbar.make(linearLayout,"No User Found",Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
 
         textView_signup.setOnClickListener(this);
         imageView_back.setOnClickListener(this);
