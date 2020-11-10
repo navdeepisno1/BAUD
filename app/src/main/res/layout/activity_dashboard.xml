@@ -43,6 +43,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
+                android:id="@+id/dashboard_iv_notification"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
                 android:padding="12dp"

@@ -125,8 +125,6 @@ public class Dashboard extends AppCompatActivity {
                 startActivity(new Intent(context,SearchProducts.class),activityOptionsCompat.toBundle());
             }
         });
-
-
     }
 
     private void refresh()
