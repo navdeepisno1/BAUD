@@ -2,10 +2,14 @@ package com.suvidha.bazaaratyourdwaar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -37,6 +43,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        if(checkPermission())
+        {
+            Toast.makeText(context,"Permission is already Granted",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            requestPermission();
+        }
 
         textView_signup = findViewById(R.id.login_tv_signup);
         imageView_back = findViewById(R.id.login_iv_back);
@@ -132,5 +147,39 @@ public class Login extends AppCompatActivity implements View.OnClickListener{
                 break;
             }
         }
+    }
+
+    private boolean checkPermission()
+    {
+       return ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermission()
+    {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},101);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode)
+        {
+            case 101:
+            {
+                if(grantResults.length>0)
+                {
+                    if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    {
+                        Toast.makeText(context,"Permission Granted",Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(context,"Permission Not Granted",Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        }
+
     }
 }
