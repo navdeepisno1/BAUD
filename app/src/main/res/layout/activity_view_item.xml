@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Women Blue Handbag"
+            android:text=""
             android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Women Blue Handbag  (Pack of: 4)"
+                android:text=""
                 android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:layout_height="wrap_content"
-                    android:text="Rs.985/-"/>
+                    android:text=""/>
                 <TextView
                     android:id="@+id/view_item_tv_discount"
                     android:textColor="#4db19a"
@@ -142,7 +142,7 @@
                     android:textStyle="bold"
                     android:layout_marginLeft="12dp"
                     android:layout_height="wrap_content"
-                    android:text="71% off"/>
+                    android:text=""/>
             </LinearLayout>
             <Button
                 android:padding="12dp"
