@@ -44,6 +44,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
+
+            <pl.droidsonroids.gif.GifImageView
+                android:padding="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:src="@drawable/image_load"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_item_vp_product_images"
                 android:layout_width="match_parent"
@@ -78,7 +88,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/view_item_iv_add_fav"
                     android:layout_width="44dp"
                     android:layout_height="44dp"

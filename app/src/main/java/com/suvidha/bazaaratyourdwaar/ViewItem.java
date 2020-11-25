@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class ViewItem extends AppCompatActivity {
     RecyclerView recyclerView_products_show;
     TextView textView_heading,textView_item_name,textView_price,textView_discount;
     ImageView imageView_share,imageView_add_fav;
+    boolean isItemFav = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +84,23 @@ public class ViewItem extends AppCompatActivity {
         });
 
         fetchData(getIntent().getStringExtra("itemId"));
+
+        imageView_add_fav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isItemFav)
+                {
+                    imageView_add_fav.setImageResource(R.drawable.icon_fav_not_selected);
+                    isItemFav = !isItemFav;
+                }
+                else
+                {
+                    imageView_add_fav.setImageResource(R.drawable.icon_fav_selected);
+                    isItemFav = !isItemFav;
+                }
+            }
+        });
+
     }
 
     private void fetchData(String id)
@@ -118,8 +137,11 @@ public class ViewItem extends AppCompatActivity {
                             product.setId(jsonArray.get(20).toString());
                             product.setModel(jsonArray.get(21).toString());
 
-                            textView_price.setText(product.getCurrent_price());
-                            textView_discount.setText(product.getDiscount());
+                            double price = Double.parseDouble(product.getCurrent_price()) * 73.99;
+                            double discount = Double.parseDouble(product.getDiscount());
+
+                            textView_price.setText("\u20B9" + Math.round(price));
+                            textView_discount.setText(Math.round(discount)+"% off");
                             textView_heading.setText(product.getName());
                             textView_item_name.setText(product.getName());
                             viewPager = findViewById(R.id.view_item_vp_product_images);
